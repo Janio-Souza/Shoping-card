@@ -4,7 +4,6 @@ const computadorSearch = require('../mocks/search');
 
 describe('1 - Teste a função fetchProducts', () => {
   it('Teste se fetchProducts é uma função',async () => {
-    // await - Ainda não sei se vou precisar utilizar neste caso.
      expect(typeof fetchProducts).toBe('function');
   });
   it('Execute a função fetchProducts com o argumento \'computador\' e teste se fetch foi chamada',async () => {
