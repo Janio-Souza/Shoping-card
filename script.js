@@ -1,11 +1,9 @@
-
 const createProductImageElement = (imageSource) => {
-  const img = document.createElement("img");
-  img.className = "item__image";
+  const img = document.createElement('img');
+  img.className = 'item__image';
   img.src = imageSource;
   return img;
 };
-
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
@@ -15,28 +13,28 @@ const createCustomElement = (element, className, innerText) => {
 
 const fetchProductsElement = async () => {
   const products = await fetchProducts();
-  const items = document.querySelector(".items");
+  const items = document.querySelector('.items');
   return products.forEach((elementos) => {
     const { id, title, thumbnail } = elementos;
     return items.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
   });
 };
 const createProductItemElement = ({ sku, name, image }) => {
-  const section = document.createElement("section");
-  section.className = "item";
+  const section = document.createElement('section');
+  section.className = 'item';
 
-  section.appendChild(createCustomElement("span", "item__sku", sku));
-  section.appendChild(createCustomElement("span", "item__title", name));
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(
-    createCustomElement("button", "item__add", "Adicionar ao carrinho!")
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
   );
 
   return section;
 };
 
 const getSkuFromProductItem = (item) =>
-  item.querySelector("span.item__sku").innerText;
+  item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
   // coloque seu código aqui
@@ -44,7 +42,7 @@ const cartItemClickListener = (event) => {
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement("li");
-  li.className = "cart__item";
+  li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener("click", cartItemClickListener);
   return li;
