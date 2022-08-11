@@ -11,10 +11,11 @@ const createCustomElement = (element, className, innerText) => {
   return e;
 };
 
-const fetchProductsElement = async () => {
-  const products = await fetchProducts();
+const fetchProductsElement = async (product) => {
+  const products = await fetchProducts(product);
   const items = document.querySelector('.items');
-  return products.forEach((elementos) => {
+  const resultsProducts = products.results;
+  return resultsProducts.forEach((elementos) => {
     const { id, title, thumbnail } = elementos;
     return items.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
   });
@@ -44,8 +45,8 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement("li");
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener("click", cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener);
   return li;
 };
 
-window.onload = () => fetchProductsElement();
+window.onload = () => fetchProductsElement('computador');
