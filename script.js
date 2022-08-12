@@ -1,40 +1,41 @@
-const createProductImageElement = (imageSource) => {
+const createProductImageElement = (imageSource) => { // Esta função retorna uma tag de imagem,
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
 };
-const createCustomElement = (element, className, innerText) => {
+const createCustomElement = (element, className, innerText) => { // Esta função retorna um elemento html personalizado conforme os parametros passados.
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
 };
 
-const getSkuFromProductItem = (item) =>
+const getSkuFromProductItem = (item) => // Esta função esta retornando o sku em forma de string para addItemToCart.
   item.querySelector('span.item__sku').innerText;
 
-const cartItemClickListener = (event) => {
-    // coloque seu código aqui
+const cartItemClickListener = (event) => { // Esta função quando chamada remove a li referente ao produto no cart atraves do metodo target e remove();
+  const li = document.querySelector('.cart_item');
+  event.target.remove(li);
 };
 
-  const createCartItemElement = ({ sku, name, salePrice }) => {
+  const createCartItemElement = ({ sku, name, salePrice }) => { // createCartItemElement recebe os parametros da função addItemToCart e monta a estrutura do produto.
     const li = document.createElement('li');
     li.className = 'cart__item';
     li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-    li.addEventListener('click', cartItemClickListener);
+    li.addEventListener('click', cartItemClickListener); // Este escutador de eventos esta aguardando o click no produto do carrinho para chamar CartItemClickListner.
     return li;
   };
 
-const addItemToCart = async (event) => {
+const addItemToCart = async (event) => { // A função addItemToCart esta buscando os produtos e jogando no carrinho.
   const getSku = getSkuFromProductItem(event.target.parentNode);
   const cart = document.querySelector('.cart__items');
   const product = await fetchItem(getSku);
-  return cart.appendChild(createCartItemElement({ 
-    sku: product.id, name: product.title, salePrice: product.price }));
+  return cart.appendChild(createCartItemElement({  
+    sku: product.id, name: product.title, salePrice: product.price })); // Para criar os produtos no cart é utilizado a createCartItemElement.
 };
 
-const createProductItemElement = ({ sku, name, image }) => {
+const createProductItemElement = ({ sku, name, image }) => { // Esta função esta responsalvel por criar os produtos, utiliza as funções creatCustomElement e creatProductImageElement.
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -47,7 +48,7 @@ const createProductItemElement = ({ sku, name, image }) => {
 
   return section;
 };
-const fetchProductsElement = async (product) => {
+const fetchProductsElement = async (product) => { // FetchProductsElement isere os produtos criados por createProductItemElement na pagina
   const products = await fetchProducts(product);
   const items = document.querySelector('.items');
   const resultsProducts = products.results;
