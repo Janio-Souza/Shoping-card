@@ -14,6 +14,10 @@ const createCustomElement = (element, className, innerText) => {
 const getSkuFromProductItem = (item) =>
   item.querySelector('span.item__sku').innerText;
 
+const cartItemClickListener = (event) => {
+    // coloque seu código aqui
+};
+
   const createCartItemElement = ({ sku, name, salePrice }) => {
     const li = document.createElement('li');
     li.className = 'cart__item';
@@ -21,10 +25,6 @@ const getSkuFromProductItem = (item) =>
     li.addEventListener('click', cartItemClickListener);
     return li;
   };
-
-// const cartItemClickListener = (event) => {
-//     // coloque seu código aqui
-// };
 
 const addItemToCart = async (event) => {
   const getSku = getSkuFromProductItem(event.target.parentNode);
