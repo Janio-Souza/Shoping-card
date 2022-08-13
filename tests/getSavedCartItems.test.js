@@ -5,7 +5,7 @@ localStorageSimulator('getItem');
 
 describe('4 - Teste a função getSavedCartItems', () => {
   it('Teste se getSavedCartItems é um função.', () => {
-    expect(getSavedCartItems).toBe('function');
+    expect(typeof getSavedCartItems).toBe('function');
   });
   it('Teste se, ao executar getSavedCartItems, o método localStorage.getItem é chamado.', () => {
     getSavedCartItems();

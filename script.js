@@ -1,4 +1,6 @@
-const createProductImageElement = (imageSource) => { // Esta função retorna uma tag de imagem,
+const cartItems = document.querySelector('.cart__items');
+
+const createProductImageElement = (imageSource) => { // Esta função retorna uma tag de imagem.
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
@@ -15,8 +17,8 @@ const getSkuFromProductItem = (item) => // Esta função esta retornando o sku e
   item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => { // Esta função quando chamada remove a li referente ao produto no cart atraves do metodo target e remove();
-  const li = document.querySelector('.cart_item');
-  event.target.remove(li);
+  // const li = document.querySelector('.cart__item');
+   event.target.remove();
 };
 
   const createCartItemElement = ({ sku, name, salePrice }) => { // createCartItemElement recebe os parametros da função addItemToCart e monta a estrutura do produto.
@@ -27,13 +29,25 @@ const cartItemClickListener = (event) => { // Esta função quando chamada remov
     return li;
   };
 
+  const setProductsLocalStore = (element) => { // Esta função esta salvando o produto em localStore.
+    saveCartItems(element);
+  };
+
+  const cartProductOnload = () => { // Jogando produtos no cart quando recarregar pagina.
+    const productSaved = getSavedCartItems();
+    cartItems.innerHTML = productSaved;
+    cartItems.addEventListener('click', cartItemClickListener);
+  };
+
 const addItemToCart = async (event) => { // A função addItemToCart esta buscando os produtos e jogando no carrinho.
   const getSku = getSkuFromProductItem(event.target.parentNode);
-  const cart = document.querySelector('.cart__items');
+  const cart = cartItems;
   const product = await fetchItem(getSku);
-  return cart.appendChild(createCartItemElement({  
-    sku: product.id, name: product.title, salePrice: product.price })); // Para criar os produtos no cart é utilizado a createCartItemElement.
-};
+  const productItem = createCartItemElement({  
+    sku: product.id, name: product.title, salePrice: product.price });
+  cart.appendChild(productItem); 
+  setProductsLocalStore(document.querySelector('.cart__items').innerHTML);
+  };
 
 const createProductItemElement = ({ sku, name, image }) => { // Esta função esta responsalvel por criar os produtos, utiliza as funções creatCustomElement e creatProductImageElement.
   const section = document.createElement('section');
@@ -58,4 +72,7 @@ const fetchProductsElement = async (product) => { // FetchProductsElement isere 
   });
 };
 
-window.onload = () => fetchProductsElement('computador');
+window.onload = async () => {
+ await fetchProductsElement('computador'); 
+  cartProductOnload();
+};
