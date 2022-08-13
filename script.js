@@ -1,4 +1,6 @@
 const cartItems = document.querySelector('.cart__items');
+const subTotal = document.querySelector('.total-price');
+let totalPrice = 0;
 
 const createProductImageElement = (imageSource) => { // Esta função retorna uma tag de imagem.
   const img = document.createElement('img');
@@ -13,11 +15,36 @@ const createCustomElement = (element, className, innerText) => { // Esta funçã
   return e;
 };
 
+const setProductsLocalStore = (element) => { // Esta função esta salvando o produto em localStore.
+  saveCartItems(element);
+};
+
 const getSkuFromProductItem = (item) => // Esta função esta retornando o sku em forma de string para addItemToCart.
   item.querySelector('span.item__sku').innerText;
 
-const cartItemClickListener = (event) => { // Esta função quando chamada remove a li referente ao produto no cart atraves do metodo target e remove();
-  // const li = document.querySelector('.cart__item');
+// subTotal.appendChild(createCustomElement('div', 'sub-total', totalPrice)); // Rever forma de criação deste item.
+
+const sumSubtotalCart = (price) => { // Esta função soma os produtos ao serem adicionados para atualiza o total a pagar do carrinho. 
+  totalPrice += price;
+  const priceRound = Math.round(totalPrice * 100) / 100;
+  subTotal.innerHTML = priceRound;
+  localStorage.setItem('subTotal', priceRound);
+};
+
+const updateLocalStorage = async () => { // updateLocalStorage atualiza o localStorage quando é retirado um item do cart.
+  await localStorage.removeItem('cartItems');
+  localStorage.setItem('cartItems', cartItems.innerHTML);
+};
+
+const cartItemClickListener = (event) => { // Esta função remove um item do cart e atualiza seu preço, tanto na pagina quanto no local storage.
+  const eventArmazenado = event.target.innerText;
+  const priceParse = eventArmazenado.split('$')[1];
+  totalPrice = localStorage.getItem('subTotal');
+  totalPrice = Number(totalPrice) - priceParse;
+  const priceRound = Math.round(totalPrice * 100) / 100;
+  subTotal.innerHTML = priceRound;
+  localStorage.setItem('subTotal', priceRound);
+  updateLocalStorage(); 
    event.target.remove();
 };
 
@@ -29,14 +56,12 @@ const cartItemClickListener = (event) => { // Esta função quando chamada remov
     return li;
   };
 
-  const setProductsLocalStore = (element) => { // Esta função esta salvando o produto em localStore.
-    saveCartItems(element);
-  };
-
   const cartProductOnload = () => { // Jogando produtos no cart quando recarregar pagina.
     const productSaved = getSavedCartItems();
     cartItems.innerHTML = productSaved;
-    cartItems.addEventListener('click', cartItemClickListener);
+    subTotal.innerHTML = localStorage.getItem('subTotal');
+    const productsInCart = cartItems.childNodes;
+    productsInCart.forEach((products) => products.addEventListener('click', cartItemClickListener));
   };
 
 const addItemToCart = async (event) => { // A função addItemToCart esta buscando os produtos e jogando no carrinho.
@@ -47,6 +72,7 @@ const addItemToCart = async (event) => { // A função addItemToCart esta buscan
     sku: product.id, name: product.title, salePrice: product.price });
   cart.appendChild(productItem); 
   setProductsLocalStore(document.querySelector('.cart__items').innerHTML);
+  sumSubtotalCart(product.price);
   };
 
 const createProductItemElement = ({ sku, name, image }) => { // Esta função esta responsalvel por criar os produtos, utiliza as funções creatCustomElement e creatProductImageElement.

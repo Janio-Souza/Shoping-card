@@ -140,6 +140,13 @@ body {
   overflow-y: scroll;
 }
 
+.total-price {
+  display: flex;
+  align-self: center;
+
+  /* padding: 30px; */
+}
+
 .empty-cart {
   width: 170px;
   height: 35px;
