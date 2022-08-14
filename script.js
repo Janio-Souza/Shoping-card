@@ -105,7 +105,6 @@ btnClearCart.addEventListener('click', clearCart = () => {
   subTotal.innerHTML = 0;
   console.log(subTotal);
   console.log(totalPrice);
-
 });
 
 window.onload = async () => {
