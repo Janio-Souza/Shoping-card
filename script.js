@@ -1,5 +1,6 @@
 const cartItems = document.querySelector('.cart__items');
 const subTotal = document.querySelector('.total-price');
+const btnClearCart = document.querySelector('.empty-cart');
 let totalPrice = 0;
 
 const createProductImageElement = (imageSource) => { // Esta função retorna uma tag de imagem.
@@ -21,8 +22,6 @@ const setProductsLocalStore = (element) => { // Esta função esta salvando o pr
 
 const getSkuFromProductItem = (item) => // Esta função esta retornando o sku em forma de string para addItemToCart.
   item.querySelector('span.item__sku').innerText;
-
-// subTotal.appendChild(createCustomElement('div', 'sub-total', totalPrice)); // Rever forma de criação deste item.
 
 const sumSubtotalCart = (price) => { // Esta função soma os produtos ao serem adicionados para atualiza o total a pagar do carrinho. 
   totalPrice += price;
@@ -97,6 +96,17 @@ const fetchProductsElement = async (product) => { // FetchProductsElement isere 
     return items.appendChild(createProductItemElement({ sku: id, name: title, image: thumbnail }));
   });
 };
+
+btnClearCart.addEventListener('click', clearCart = () => {
+  localStorage.removeItem('cartItems');
+  localStorage.removeItem('subTotal');
+  totalPrice = 0;
+  cartItems.innerHTML = '';
+  subTotal.innerHTML = 0;
+  console.log(subTotal);
+  console.log(totalPrice);
+
+});
 
 window.onload = async () => {
  await fetchProductsElement('computador'); 
