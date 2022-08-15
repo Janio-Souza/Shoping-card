@@ -103,11 +103,9 @@ btnClearCart.addEventListener('click', clearCart = () => {
   totalPrice = 0;
   cartItems.innerHTML = '';
   subTotal.innerHTML = 0;
-  console.log(subTotal);
-  console.log(totalPrice);
 });
 
 window.onload = async () => {
- await fetchProductsElement('computador'); 
-  cartProductOnload();
+await fetchProductsElement('computador');
+cartProductOnload();
 };
