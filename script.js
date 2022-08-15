@@ -1,6 +1,7 @@
 const cartItems = document.querySelector('.cart__items');
 const subTotal = document.querySelector('.total-price');
 const btnClearCart = document.querySelector('.empty-cart');
+const pageProducts = document.querySelector('.items');
 let totalPrice = 0;
 
 const createProductImageElement = (imageSource) => { // Esta função retorna uma tag de imagem.
@@ -14,6 +15,15 @@ const createCustomElement = (element, className, innerText) => { // Esta funçã
   e.className = className;
   e.innerText = innerText;
   return e;
+};
+
+const loadingMessage = () => { // Mostra uma mesangem de carregando enquanto os produtos não aparecen na tela.
+  pageProducts.appendChild(createCustomElement('span', 'loading', 'Carregando...'));
+};
+
+const removeLoadingMessage = () => {
+  const message = document.querySelector('.loading');
+  message.remove();
 };
 
 const setProductsLocalStore = (element) => { // Esta função esta salvando o produto em localStore.
@@ -106,6 +116,8 @@ btnClearCart.addEventListener('click', clearCart = () => {
 });
 
 window.onload = async () => {
+loadingMessage();
 await fetchProductsElement('computador');
 cartProductOnload();
+removeLoadingMessage();
 };
