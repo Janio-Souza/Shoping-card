@@ -2,6 +2,8 @@ const cartItems = document.querySelector('.cart__items');
 const subTotal = document.querySelector('.total-price');
 const btnClearCart = document.querySelector('.empty-cart');
 const pageProducts = document.querySelector('.items');
+const formSearch = document.querySelector('#formSeach');
+const search = document.querySelector('#search');
 let totalPrice = 0;
 
 const createProductImageElement = (imageSource) => { // Esta função retorna uma tag de imagem.
@@ -21,7 +23,7 @@ const loadingMessage = () => { // Mostra uma mesangem de carregando enquanto os 
   pageProducts.appendChild(createCustomElement('span', 'loading', 'Carregando...'));
 };
 
-const removeLoadingMessage = () => {
+const removeLoadingMessage = () => { // Remove a mensagem de carregando quando os intes parecem.
   const message = document.querySelector('.loading');
   message.remove();
 };
@@ -57,10 +59,12 @@ const cartItemClickListener = (event) => { // Esta função remove um item do ca
    event.target.remove();
 };
 
-  const createCartItemElement = ({ sku, name, salePrice }) => { // createCartItemElement recebe os parametros da função addItemToCart e monta a estrutura do produto.
+  const createCartItemElement = ({ image, sku, name, salePrice }) => { // createCartItemElement recebe os parametros da função addItemToCart e monta a estrutura do produto.
     const li = document.createElement('li');
     li.className = 'cart__item';
-    li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+    // li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+    li.innerText = `${name} | R$${salePrice}`;
+    li.appendChild(createProductImageElement(image));
     li.addEventListener('click', cartItemClickListener); // Este escutador de eventos esta aguardando o click no produto do carrinho para chamar CartItemClickListner.
     return li;
   };
@@ -77,8 +81,10 @@ const addItemToCart = async (event) => { // A função addItemToCart esta buscan
   const getSku = getSkuFromProductItem(event.target.parentNode);
   const cart = cartItems;
   const product = await fetchItem(getSku);
+  // const productItem = createCartItemElement({  
+  //   sku: product.id, name: product.title, salePrice: product.price });
   const productItem = createCartItemElement({  
-    sku: product.id, name: product.title, salePrice: product.price });
+    image: product.thumbnail, sku: product.id, name: product.title, salePrice: product.price });
   cart.appendChild(productItem); 
   setProductsLocalStore(document.querySelector('.cart__items').innerHTML);
   sumSubtotalCart(product.price);
@@ -113,6 +119,14 @@ btnClearCart.addEventListener('click', clearCart = () => {
   totalPrice = 0;
   cartItems.innerHTML = '';
   subTotal.innerHTML = 0;
+});
+
+formSearch.addEventListener('submit', seacher = async (event) => { // Esta função busca produtos solicitados pelo visitante.
+  event.preventDefault();
+  while (pageProducts.firstChild) pageProducts.removeChild(pageProducts.firstChild); // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+  loadingMessage();
+  await fetchProductsElement(search.value);
+  removeLoadingMessage();
 });
 
 window.onload = async () => {

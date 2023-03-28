@@ -28,6 +28,7 @@ body {
   padding-left: 30px;
 }
 
+
 .container-cartTitle {
   position: relative;
   display: flex;
@@ -153,4 +154,36 @@ body {
   margin: 0 auto;
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
+}
+
+#formSeach {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  padding-left: 20%;
+}
+
+#search {
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 25px;
+  width: auto;
+  padding: 2px 23px 2px 30px;
+  outline: 0;
+}
+
+.cart__item {
+  margin-top: 10px;
+  display: flex;
+}
+
+.btnSend {
+  border: none;
+  border-radius: 5px;
+  background-color: blue;
+  color: white;
+  font-weight: 800;
+  padding: 2px 23px 2px 30px;
+  height: 25px;
+
 }

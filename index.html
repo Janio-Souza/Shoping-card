@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Shop</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,13 +19,19 @@
   <body>
     <header class="header">
       <div class="container-title">
-        <span class="title"><strong>trybe</strong>shopping</span>
+        <span class="title"><strong>JS</strong>shopping</span>
       </div>
       <i class="material-icons" style="font-size:45px;color:white">shopping_cart</i>
       <div class="container-cartTitle">
         <span class="cart__title">Meu carrinho</span>
       </div>
     </header>
+    <form action="" id="formSeach">
+    <label for="searchProd">Digite um Produto:
+        <input autocomplete="off" type="search" id="search" name="searchProd" onfocus="this.value = ''">
+        <input type="submit" class="btnSend" value="Pesquisar">
+    </label>    
+  </form>
     <section class="container">
       <section class="items"></section>
       <section class="cart">
