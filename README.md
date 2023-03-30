@@ -30,6 +30,9 @@ Clone o repositório em sua maquina e siga os passos.
 
 4. Acessar através do navegador:
     <p>http://localhost/</p>
+ 
+5. Voce pode acessar online atraves deste link:
+   https://janio-souza.github.io/projects/project-shopping-cart/index.html
 
 ## Contribuintes
 |Nome|GitHub|
